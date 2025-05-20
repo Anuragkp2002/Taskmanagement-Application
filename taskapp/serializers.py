@@ -12,3 +12,9 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         table=Task_tb
         fields="__all__"
+        
+        
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        table=Task_tb
+        fields = ['id', 'title', 'completion_report', 'worked_hours']
