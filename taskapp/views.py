@@ -43,3 +43,19 @@ class TaskupdateView(APIView):
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     
     
+class TaskReportView(APIView):
+    permission_classes=[IsAuthenticated]
+    def get(self,request,id):
+        try:
+            task = Task_tb.objects.get(id=id)
+        except Task_tb.DoesNotExist:
+            return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        if request.user.role not in ['admin', 'superadmin']:
+            return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        if task.status != 'Completed':
+            return Response({'error': 'Report only available for completed tasks.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = ReportSerializer(task)
+        return Response(serializer.data)
