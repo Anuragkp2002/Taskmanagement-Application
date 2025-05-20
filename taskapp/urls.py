@@ -5,5 +5,5 @@ from .views import*
 
 
 urlpatterns=[
-    
+    path('GettaskApiView/',GettaskApiView.as_view(),name='GettaskApiView')
 ]
