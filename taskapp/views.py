@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from taskapp.urls import*
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,AllowAny
@@ -33,7 +33,7 @@ class TaskupdateView(APIView):
             return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
         data=request.data
         if data.get('status') == 'Completed':
-            if not data.get('completion_report') or not data.get('worked_hours'):
+            if not data.get('completionreport') or not data.get('worked_hours'):
                 return Response({'error': 'Completion report and worked hours are required'}, status=status.HTTP_400_BAD_REQUEST)
             
         serializer=TaskSerializer(task,data=data,partial=True)
@@ -59,3 +59,6 @@ class TaskReportView(APIView):
 
         serializer = ReportSerializer(task)
         return Response(serializer.data)
+    
+    
+    
